@@ -51,36 +51,22 @@ function Componentdetail() {
         {/* Top Section: Image + Info */}
         <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* Image */}
-          <div className="lg:w-1/2 flex justify-center items-start">
-            <img
-              src={item.src}
-              alt={item.pname}
-              className="max-h-[420px] object-contain"
-            />
-          </div>
+  {/* Image */}
+  <div className="lg:flex-1 flex justify-center items-start">
+    <img
+      src={item.src}
+      alt={item.pname}
+      className="max-h-[600px] w-full object-contain"
+    />
+  </div>
 
-          {/* Product Info */}
-          <div className="lg:w-1/2">
-            <h1 className="text-4xl font-bold mb-4">{item.pname}</h1>
+  {/* Product Info */}
+  <div className="lg:w-1/2">
+    <h1 className="text-4xl font-bold mb-4">{item.pname}</h1>
+    <p className="text-gray-300 text-lg mb-6">{item.description}</p>
 
-            <p className="text-gray-300 text-lg mb-6">
-              {item.description ? item.description : "Detailed description is not available for this component."}
-            </p>
-
-            {/* Placeholder for Amazon-like actions */}
-            <div className="border border-gray-700 rounded-lg p-4 bg-gray-800">
-              <p className="text-green-400 font-semibold mb-2">
-                In Stock
-              </p>
-              <Add component={item} type={type} />
-            </div>
-          </div>
-
-        </div>
-
-        {/* Bottom Section: Details */}
-        <div className="mt-12 border-t border-gray-700 pt-8 max-w-5xl">
+    
+      <div className="mt-12 border-t border-gray-700 pt-8 max-w-5xl">
           <h2 className="text-2xl font-semibold mb-4">
             Product Details
           </h2>
@@ -91,6 +77,16 @@ function Componentdetail() {
             </p>
           </div>
         </div>
+      
+      <Add component={item} type={type} />
+    </div>
+  
+
+</div>
+
+
+        {/* Bottom Section: Details */}
+        
 
       </div>
     </div>
