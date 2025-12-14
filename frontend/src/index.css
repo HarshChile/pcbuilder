@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Page fade + slide animation */
+/* Very soft fade-in animation */
+@keyframes softFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: softFade 0.8s ease-out forwards;
+}
+
+
+
+.slide-left {
+  animation: slideInLeft 1.1s ease forwards;
+}
+
+.slide-right {
+  animation: slideInRight 1.1s ease forwards;
+}
+
+/* Neon Buttons */
+.neon-btn {
+  background-color: #00FF66;
+  color: black;
+  font-weight: bold;
+  transition: 0.2s;
+  box-shadow: 0 0 10px #00FF66;
+}
+.neon-btn:hover {
+  background-color: #00e65c;
+  box-shadow: 0 0 20px #00FF66;
+  transform: scale(1.05);
+}
+
+/* Neon Tabs */
+.neon-tab {
+  color: #00FF66;
+  transition: 0.2s;
+}
+.neon-tab:hover {
+  text-shadow: 0 0 10px #00FF66;
+  color: #00FF66;
+}
+
+/* Dropdown Hover */
+.dropdown-neon:hover {
+  background-color: #003300 !important;
+  color: #00FF66;
+  text-shadow: 0 0 8px #00FF66;
+}
+
+.crazy-slide-left {
+  animation: slideLeftCrazy 1.1s ease-out forwards;
+}
+
+.crazy-slide-right {
+  animation: slideRightCrazy 1.1s ease-out forwards;
+}
+
+.crazy-text {
+  animation: textWave 3s ease-in-out infinite;
+}
+
+.crazy-fade {
+  animation: fadeIn 2s ease-in-out;
+}
+
+.crazy-button:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px #00e1ff);
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
