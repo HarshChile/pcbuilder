@@ -8,6 +8,7 @@ import Hero from './components/Hero.jsx'
 import ComponentListPage from './components/ComponentListPage.jsx'
 import Componentdetail from './components/Componentdetail.jsx'
 import Cartpage from './components/Cartpage.jsx'
+import Readme from './components/Readme.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,7 +21,7 @@ const router = createBrowserRouter(
       {/* Details page */}
       <Route path=":type/details/:id" element={<Componentdetail />} />
       <Route path="cart" element={<Cartpage/>} />
-      
+      <Route path='readme' element={<Readme/>}/>
     </Route>
   )
 )
