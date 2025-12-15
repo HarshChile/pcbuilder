@@ -11,7 +11,7 @@ import Browse from "./Browse";
 import { usb } from "../data/usb";   
 import { keyboard } from "../data/keyboard";
 import { powersupply } from "../data/powersupply"; 
-
+import {motherboard} from "../data/motherboard";
 
 
 function ComponentListPage() {
@@ -29,6 +29,7 @@ function ComponentListPage() {
   if (type === "usb") list = usb;
   if (type === "keyboard") list = keyboard;
   if (type === "powersupply") list = powersupply;
+  if(type === "motherboard") list =motherboard;
 
 
   return (
