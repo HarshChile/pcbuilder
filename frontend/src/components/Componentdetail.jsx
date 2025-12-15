@@ -11,6 +11,7 @@ import { harddrives } from "../data/harddrives";
 import { cables } from "../data/cables";
 import { keyboard } from "../data/keyboard";
 import { powersupply } from "../data/powersupply";
+import { motherboard } from "../data/motherboard";
 
 function Componentdetail() {
   const { id, type } = useParams();
@@ -27,6 +28,7 @@ function Componentdetail() {
   else if (type === "cables") selectedList = cables;
   else if (type === "keyboard") selectedList = keyboard;
   else if (type === "powersupply") selectedList = powersupply;
+  else if (type === "motherboard") selectedList = motherboard;
 
   const item = selectedList.find(c => c.id === Number(id));
 
