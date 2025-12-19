@@ -1,19 +1,27 @@
 import cartSvg from "../assets/cart.svg";
-import { useContext } from 'react'
-import { CartContext } from '../context/CartContext'
+import api from "../api/axios";
 
 function Add({ component, type }) {
-  const { addComponent } = useContext(CartContext)
 
-  function handleAdd() {
-    if (!type || !component) {
-      alert('Nothing to add')
-      return
+  const handleAdd = async () => {
+    if (!type || !component?.id) {
+      alert("Nothing to add");
+      return;
     }
 
-    addComponent(type, component)
-    alert('Added to Cart')
-  }
+    try {
+      await api.post("/cart/add", {
+        type,
+        id: component.id,
+      });
+
+      alert("Added to cart ✅");
+    } catch (err) {
+      const message =
+        err.response?.data?.message || "Failed to add component";
+      alert(message);
+    }
+  };
 
   return (
     <div className="pt-4">
@@ -25,7 +33,7 @@ function Add({ component, type }) {
         {/* Sliding Green Box */}
         <div
           className="bg-green-400 rounded-xl h-12 w-1/4 flex items-center justify-center 
-                   absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+                     absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
         >
           <img src={cartSvg} alt="cart icon" className="h-6 w-6" />
         </div>
@@ -34,6 +42,7 @@ function Add({ component, type }) {
         <p className="translate-x-2">Add to Cart</p>
       </button>
     </div>
-  )
+  );
 }
-export default Add
+
+export default Add;

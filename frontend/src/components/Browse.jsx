@@ -8,20 +8,23 @@ function Browse({ component, type }) {
 
       <Link to={`/${type}/details/${component.id}`}>
         <img
-          src={component.src}
+          src={`http://localhost:3001${component.src}`}
           alt={component.pname}
           className="w-full h-80 object-contain mb-4"
         />
       </Link>
 
-      <h2 className="text-2xl font-semibold">{component.pname}</h2>
-      <p className="text-gray-600 mt-2">{component.info}</p>
-      
+      <h2 className="text-2xl font-semibold">
+        {component.pname}
+      </h2>
+
+      <p className="text-gray-600 mt-2">
+        {component.info}
+      </p>
+
       <Add component={component} type={type} />
-      
     </div>
-    
-  )
+  );
 }
 
-export default Browse
+export default Browse;
