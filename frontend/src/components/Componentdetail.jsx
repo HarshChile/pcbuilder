@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Add from "./Add";
 import { useParams, Link } from "react-router-dom";
+import Add from "./Add";
 import api from "../api/axios";
 
 function Componentdetail() {
@@ -26,43 +26,31 @@ function Componentdetail() {
   }, [type, id]);
 
   if (loading) {
-    return (
-      <div className="bg-black min-h-screen text-white p-10">Loading...</div>
-    );
+    return <div className="bg-black min-h-screen text-white p-10">Loading...</div>;
   }
 
   if (error) {
     return (
       <div className="bg-black min-h-screen text-white p-10">
-        <Link to={`/${type}`} className="text-green-300">
-          ← Back
-        </Link>
+        <Link to={`/${type}`} className="text-green-300">← Back</Link>
         <p className="mt-6 text-red-400">{error}</p>
       </div>
     );
   }
 
-  // Fields we do NOT want to auto-render
-  const ignoredFields = [
-    "id",
-    "pname",
-    "src",
-    "info",
-    "price",
-    "description",
-    "createdAt",
-    "updatedAt",
-  ];
-
-  // Convert key names to readable labels
-  const formatLabel = (key) =>
-    key
-      .replace(/_/g, " ")
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase());
+  const specMap = {
+    vram: val => `${val} GB`,
+    coreClock: val => `${val} MHz`,
+    boostClock: val => `${val} MHz`,
+    tdp: val => `${val} W`,
+    price: val => `₹${val.toLocaleString()}`,
+    formfactor: val => val,
+    socket: val => val
+  };
 
   return (
     <div className="bg-black min-h-screen text-white">
+
       {/* Back */}
       <Link
         to={`/${type}`}
@@ -71,9 +59,9 @@ function Componentdetail() {
         ← Back to Previous
       </Link>
 
-      {/* Main */}
       <div className="bg-gray-900 px-6 md:px-16 py-10">
         <div className="flex flex-col lg:flex-row gap-12">
+
           {/* Image */}
           <div className="lg:flex-1 flex justify-center">
             <img
@@ -86,37 +74,38 @@ function Componentdetail() {
           {/* Info */}
           <div className="lg:w-1/2">
             <h1 className="text-4xl font-bold mb-4">{item.pname}</h1>
-            {item.price && (
-              <p className="text-2xl font-semibold text-green-400 mb-4">
-                ₹{Number(item.price).toLocaleString("en-IN")}
+
+            {item.description && (
+              <p className="text-gray-300 text-lg mb-6">
+                {item.description}
               </p>
             )}
 
-            <p className="text-gray-300 text-lg mb-6">{item.description}</p>
+            {item.info && (
+              <p className="text-gray-400 mb-6">
+                {item.info}
+              </p>
+            )}
 
-            {item.info && <p className="text-gray-400 mb-6">{item.info}</p>}
+            {/* ---------- SPECS GRID ---------- */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              {Object.entries(specMap).map(([key, formatter]) => {
+                if (item[key] === undefined || item[key] === null) return null;
 
-            <div className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Specifications</h2>
-
-              <div className="space-y-2">
-                {Object.entries(item)
-                  .filter(
-                    ([key, value]) =>
-                      value !== null &&
-                      value !== "" &&
-                      !ignoredFields.includes(key)
-                  )
-                  .map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="flex justify-between border-b border-gray-700 py-1"
-                    >
-                      <span className="text-gray-400">{formatLabel(key)}</span>
-                      <span className="text-white font-medium">{value}</span>
-                    </div>
-                  ))}
-              </div>
+                return (
+                  <div
+                    key={key}
+                    className="bg-black/40 p-4 rounded-lg flex justify-between"
+                  >
+                    <span className="text-gray-400 capitalize">
+                      {key.replace(/([A-Z])/g, " $1")}
+                    </span>
+                    <span className="font-semibold">
+                      {formatter(item[key])}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Add to cart */}

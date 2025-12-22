@@ -61,7 +61,6 @@ router.post("/add", async (req, res) => {
   try {
     const cart = await getCart();
 
-    // 🔥 COMPATIBILITY CHECKS (example)
     if (type === "motherboard" && cart.processorid) {
       const cpu = await Processor.findByPk(cart.processorid);
       const mobo = await Motherboard.findByPk(id);

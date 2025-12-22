@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./Footer.jsx";
 import { Link } from "react-router-dom";
 function Hero() {
   return (
@@ -47,6 +48,7 @@ function Hero() {
           />
         </div>
       </section>
+      <Footer />
     </div>
   );
 }
