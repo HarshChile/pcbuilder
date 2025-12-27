@@ -35,6 +35,9 @@ router.get("/", async (req, res) => {
       casefan:
         db.Fan && cart.casefanid ? await db.Fan.findByPk(cart.casefanid) : null,
 
+      case:
+        db.Case && cart.caseid ? await db.Case.findByPk(cart.caseid) : null,
+
       powersupply:
         db.Psu && cart.powersupplyid
           ? await db.Psu.findByPk(cart.powersupplyid)
@@ -80,6 +83,7 @@ router.post("/add", async (req, res) => {
       graphics: "graphicsid",
       ssd: "ssdid",
       casefan: "casefanid",
+      case: "caseid",
       powersupply: "powersupplyid",
       keyboard: "keyboardid",
       mouse: "mouseid",
@@ -112,6 +116,7 @@ router.delete("/:type", async (req, res) => {
       ram: "ramid",
       graphics: "graphicsid",
       ssd: "ssdid",
+      case: "caseid",
       casefan: "casefanid",
       powersupply: "powersupplyid",
       keyboard: "keyboardid",

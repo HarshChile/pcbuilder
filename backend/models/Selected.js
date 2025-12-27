@@ -29,6 +29,9 @@ module.exports = (sequelize, DataTypes) => {
         mouseid: {
             type: DataTypes.INTEGER,
         },
+        caseid: {
+            type: DataTypes.INTEGER,
+        },
         
     },
     {

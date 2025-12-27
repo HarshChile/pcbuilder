@@ -38,20 +38,46 @@ function Componentdetail() {
     );
   }
 
-  const specMap = {
-    vram: val => `${val} GB`,
-    coreClock: val => `${val} MHz`,
-    boostClock: val => `${val} MHz`,
-    tdp: val => `${val} W`,
-    price: val => `₹${val.toLocaleString()}`,
-    formfactor: val => val,
-    socket: val => val
+  const specMaps = {
+    processor: {
+      cores: (v) => `${v} Cores`,
+      threads: (v) => `${v} Threads`,
+      baseClock: (v) => `${v} GHz`,
+      boostClock: (v) => `${v} GHz`,
+      tdp: (v) => `${v} W`,
+      socket: (v) => v,
+    },
+
+    motherboard: {
+      socket: (v) => v,
+      ramsocket: (v) => v,
+      formfactor: (v) => v,
+      // common fallback fields if present
+      memorySlots: (v) => `${v} Slots`,
+      maxMemory: (v) => `${v} GB`,
+    },
+
+    graphics: {
+      vram: (v) => `${v} GB`,
+      coreClock: (v) => `${v} MHz`,
+      boostClock: (v) => `${v} MHz`,
+      tdp: (v) => `${v} W`,
+      formfactor: (v) => v,
+    },
+
+    case: {
+      formfactor: (v) => v,
+      gpuSupport: (v) => v,
+    }
   };
+
+  const specMap = specMaps[type] || {};
+
 
   return (
     <div className="bg-black min-h-screen text-white">
 
-      {/* Back */}
+     
       <Link
         to={`/${type}`}
         className="block p-6 text-green-300 hover:underline text-lg"
@@ -62,7 +88,7 @@ function Componentdetail() {
       <div className="bg-gray-900 px-6 md:px-16 py-10">
         <div className="flex flex-col lg:flex-row gap-12">
 
-          {/* Image */}
+          
           <div className="lg:flex-1 flex justify-center">
             <img
               src={`http://localhost:3001${item.src}`}
@@ -71,7 +97,7 @@ function Componentdetail() {
             />
           </div>
 
-          {/* Info */}
+          
           <div className="lg:w-1/2">
             <h1 className="text-4xl font-bold mb-4">{item.pname}</h1>
 
@@ -87,7 +113,7 @@ function Componentdetail() {
               </p>
             )}
 
-            {/* ---------- SPECS GRID ---------- */}
+            
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               {Object.entries(specMap).map(([key, formatter]) => {
                 if (item[key] === undefined || item[key] === null) return null;
@@ -108,8 +134,15 @@ function Componentdetail() {
               })}
             </div>
 
-            {/* Add to cart */}
-            <Add component={item} type={type} />
+            <div className="flex items-center gap-4 mb-6">
+              {item.price !== undefined && item.price !== null && (
+                <div className="text-2xl font-bold text-green-400">
+                  ₹{Number(item.price).toLocaleString("en-IN")}
+                </div>
+              )}
+
+              <Add component={item} type={type} />
+            </div>
           </div>
         </div>
       </div>
