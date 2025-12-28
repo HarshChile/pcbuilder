@@ -68,6 +68,15 @@ function Componentdetail() {
     case: {
       formfactor: (v) => v,
       gpuSupport: (v) => v,
+    },
+    
+    casefan: {
+      blades: (v) => v,
+      speed: (v) => v,
+    },
+   
+    powersupply: {
+      voltage: (v) => `${v} V`,
     }
   };
 

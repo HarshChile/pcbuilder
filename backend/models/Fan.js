@@ -24,11 +24,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       blades: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         },
         speed: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       price: {

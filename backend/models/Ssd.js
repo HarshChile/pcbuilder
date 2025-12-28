@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Psu = sequelize.define(
-    "Psu",
+  const Ssd = sequelize.define(
+    "Ssd",
     {
         id: {
         type: DataTypes.INTEGER,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         pname: {
         type: DataTypes.STRING,
         allowNull: false,
-        },
+      },
         src: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,18 +23,19 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
         },
-        voltage: {
-        type: DataTypes.FLOAT,
+        capacity: {
+        type: DataTypes.STRING,
         allowNull: false,
-        },
+      },
         price: {
         type: DataTypes.FLOAT,
         allowNull: false,
-        },
+      },
+      
     },
     {
-        timestamps: false,
+      timestamps: false,
     }
-);
-  return Psu;
-}
+  );
+  return Ssd;
+};
