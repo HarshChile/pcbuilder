@@ -32,6 +32,9 @@ module.exports = (sequelize, DataTypes) => {
         caseid: {
             type: DataTypes.INTEGER,
         },
+        cartid: {
+            type: DataTypes.INTEGER,
+        },
         
     },
     {

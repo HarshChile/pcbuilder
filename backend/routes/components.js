@@ -6,6 +6,7 @@ const modelMap = {
   processor: db.Processor,
   graphics: db.Graphic,
   ram: db.Ram,
+  ssd: db.Ssd,
   motherboard: db.Motherboard,
   powersupply: db.Psu,
   casefan: db.Fan,

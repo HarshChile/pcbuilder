@@ -77,7 +77,15 @@ function Componentdetail() {
    
     powersupply: {
       voltage: (v) => `${v} V`,
-    }
+    },
+    ssd: {
+      capacity: (v) => `${v} GB`,
+    },
+    ram: {
+      memsize: (v) => `${v} GB`,
+      speed: (v) => `${v} MHz`,
+      ramtype: (v) => v,
+    },
   };
 
   const specMap = specMaps[type] || {};
