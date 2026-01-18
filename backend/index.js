@@ -4,12 +4,16 @@ const db = require("./models");
 const cors = require("cors");
 app.use(express.json());
 app.use(cors());
+require("dotenv").config();
+
 const componentsRoutes = require("./routes/components");
 app.use("/api/components", componentsRoutes);
-const cartRoutes = require("./routes/cart.routes");
 
+const cartRoutes = require("./routes/cart.routes");
 app.use("/api/cart", cartRoutes);
 
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", authRoutes);
 
 app.use("/images", express.static("public/images"));
 

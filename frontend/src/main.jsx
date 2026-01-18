@@ -9,6 +9,7 @@ import ComponentListPage from './components/ComponentListPage.jsx'
 import Componentdetail from './components/Componentdetail.jsx'
 import Cartpage from './components/Cartpage.jsx'
 import Readme from './components/Readme.jsx'
+import AuthForm from './components/AuthForm.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
 
       {/* Single page to show any component type */}
       <Route path=":type" element={<ComponentListPage />} />
+      <Route path="auth" element={<AuthForm/>}/>
 
       {/* Details page */}
       <Route path=":type/details/:id" element={<Componentdetail />} />
