@@ -11,7 +11,7 @@ module.exports = {
         description:
           "High-performance DDR4 memory from Corsair designed for gaming and productivity builds. Features an aluminum heat spreader for efficient cooling and stable XMP overclocking. Ideal for modern Intel and AMD platforms.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 14700
       },
@@ -23,7 +23,7 @@ module.exports = {
         description:
           "Reliable Kingston Fury Beast DDR4 RAM offering excellent everyday and gaming performance. Supports XMP profiles and is compatible with a wide range of motherboards.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 8600
       },
@@ -35,7 +35,7 @@ module.exports = {
         description:
           "Premium DDR4 RAM with customizable RGB lighting and strong overclocking support. Designed for high-end gaming and enthusiast PC builds requiring both performance and aesthetics.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 16900
       },
@@ -47,7 +47,7 @@ module.exports = {
         description:
           "Next-generation DDR5 memory from G.Skill optimized for Intel 12th/13th Gen and AMD AM5 platforms. Delivers higher bandwidth and improved efficiency compared to DDR4.",
         ramtype: "DDR5",
-        ramsize: 16,
+        memsize: 16,
         speed: 5600,
         price: 20000
       },
@@ -59,7 +59,7 @@ module.exports = {
         description:
           "Popular G.Skill Ripjaws V DDR4 gaming memory offering stable performance and wide compatibility. Known for durability and reliable XMP support.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 9500
       },
@@ -71,7 +71,7 @@ module.exports = {
         description:
           "Classic Ripjaws V DDR4 desktop memory kit from G.Skill. Designed for gamers and power users with excellent stability, performance, and overclocking support.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 10990
       },
@@ -83,7 +83,7 @@ module.exports = {
         description:
           "High-performance Kingston Fury Beast DDR4 RAM suitable for gaming, multitasking, and productivity. Offers excellent value with consistent performance.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 8649
       },
@@ -95,7 +95,7 @@ module.exports = {
         description:
           "Older-generation DDR3 Ripjaws memory designed for legacy systems. Suitable for older desktops and laptops requiring DDR3 or DDR3L RAM.",
         ramtype: "DDR3",
-        ramsize: 4,
+        memsize: 4,
         speed: 2133,
         price: 3700
       },
@@ -107,7 +107,7 @@ module.exports = {
         description:
           "DDR3 desktop memory kit for older Intel and AMD platforms. Reliable performance for legacy systems and older-generation motherboards.",
         ramtype: "DDR3",
-        ramsize: 16,
+        memsize: 16,
         speed: 1600,
         price: 9772
       },
@@ -119,7 +119,7 @@ module.exports = {
         description:
           "Older G.Skill Ripjaws R3 series RAM designed for previous-generation platforms. Suitable for budget upgrades and legacy PC builds.",
         ramtype: "DDR3",
-        ramsize: 8,
+        memsize: 8,
         speed: 1600,
         price: 6000
       },
@@ -131,7 +131,7 @@ module.exports = {
         description:
           "Early-generation G.Skill Ripjaws V DDR4 RAM offering solid performance for first-gen DDR4 platforms. Reliable and widely compatible.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3000,
         price: 8000
       },
@@ -143,7 +143,7 @@ module.exports = {
         description:
           "High-performance G.Skill Trident Z DDR4 RAM designed for enthusiasts and gamers. Known for excellent build quality and strong overclocking capability.",
         ramtype: "DDR4",
-        ramsize: 16,
+        memsize: 16,
         speed: 3200,
         price: 18000
       }

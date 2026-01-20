@@ -11,23 +11,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-        src: {
+      src: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-        info: {
+      info: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-        description: {
+      description: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
       blades: {
         type: DataTypes.STRING,
         allowNull: false,
-        },
-        speed: {
+      },
+      speed: {
         type: DataTypes.STRING,
         allowNull: false,
       },
@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-    }
+    },
   );
   return Fan;
 };
