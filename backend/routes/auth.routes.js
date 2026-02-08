@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, Selected } = require("../models");
 
-// =====================
+
 // REGISTER
-// =====================
+
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -21,19 +21,23 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password
+    
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a cart for the new user
+    const cart = await Selected.create({ cartid: null });
 
     const newUser = await User.create({
       username,
       email,
       password: hashedPassword,
-      cartid: null,
+      cartid: cart.id,
     });
 
     res.status(201).json({
       message: "User registered successfully",
-      userId: newUser.id,
+      userId: newUser.uid,
+      cartid: newUser.cartid,
     });
   } catch (err) {
     console.error(err);
@@ -41,9 +45,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// =====================
+
 // LOGIN
-// =====================
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -75,7 +79,7 @@ router.post("/login", async (req, res) => {
     res.json({
       token,
       user: {
-        id: user.id,
+        id: user.uid,
         username: user.username,
         email: user.email,
         cartid: user.cartid,

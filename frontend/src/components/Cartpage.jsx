@@ -5,17 +5,28 @@ import api from "../api/axios";
 function Cartpage() {
   const [cart, setCart] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [cartid, setCartid] = useState(null);
 
   useEffect(() => {
-    fetchCart();
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!user.cartid) {
+      setError("Please log in to view your cart");
+      setLoading(false);
+      return;
+    }
+    setCartid(user.cartid);
+    fetchCart(user.cartid);
   }, []);
 
-  const fetchCart = async () => {
+  const fetchCart = async (cid) => {
     try {
-      const res = await api.get("/cart");
+      const res = await api.get("/cart", { params: { cartid: cid } });
       setCart(res.data || {});
+      setError(null);
     } catch (err) {
       console.error("Failed to fetch cart");
+      setError("Failed to fetch cart");
     } finally {
       setLoading(false);
     }
@@ -23,19 +34,42 @@ function Cartpage() {
 
   const removeComponent = async (type) => {
     try {
-      await api.delete(`/cart/${type}`);
-      fetchCart(); // refresh cart
+      await api.delete(`/cart/${type}`, { params: { cartid } });
+      fetchCart(cartid);
     } catch (err) {
       alert("Failed to remove component");
     }
   };
 
-  const isEmpty = Object.values(cart).every((item) => !item);
+  const updateQuantity = async (type, quantity) => {
+    try {
+      if (quantity < 1) return;
+      await api.put(`/cart/quantity/${type}`, { quantity, cartid });
+      fetchCart(cartid);
+    } catch (err) {
+      alert("Failed to update quantity");
+    }
+  };
+
+  const isEmpty = Object.values(cart).every(
+    (item) => !item || !item.item
+  );
 
   if (loading) {
     return (
       <div className="bg-black min-h-screen text-white p-10">
         Loading cart...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-black min-h-screen text-white p-10 flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">{error}</h1>
+        <Link to="/auth" className="text-green-400 hover:text-green-300">
+          Go to Login
+        </Link>
       </div>
     );
   }
@@ -56,8 +90,8 @@ function Cartpage() {
 
       {!isEmpty && (
         <div className="px-8 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {Object.entries(cart).map(([type, comp]) =>
-            comp ? (
+          {Object.entries(cart).map(([type, cartItem]) =>
+            cartItem && cartItem.item ? (
               <div
                 key={type}
                 className="bg-gray-900 p-6 rounded-lg text-white"
@@ -67,28 +101,59 @@ function Cartpage() {
                 </h2>
 
                 <img
-                  src={`http://localhost:3001${comp.src}`}
-                  alt={comp.pname}
+                  src={`http://localhost:3001${cartItem.item.src}`}
+                  alt={cartItem.item.pname}
                   className="w-full h-40 object-contain my-4"
                 />
 
-                <p className="text-gray-300">{comp.pname}</p>
+                <p className="text-gray-300">{cartItem.item.pname}</p>
 
-                {comp.info && (
+                {cartItem.item.info && (
                   <p className="text-gray-400 text-sm mt-2">
-                    {comp.info}
+                    {cartItem.item.info}
                   </p>
                 )}
 
-                {comp.price && (
+                {cartItem.item.price && (
                   <p className="text-green-400 font-semibold mt-2">
-                    ₹{Number(comp.price).toLocaleString("en-IN")}
+                    ₹{Number(cartItem.item.price).toLocaleString("en-IN")}
                   </p>
                 )}
+
+                <div className="mt-4 flex items-center gap-3">
+                  <label className="text-gray-300">Quantity:</label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() =>
+                        updateQuantity(type, cartItem.quantity - 1)
+                      }
+                      className="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      value={cartItem.quantity}
+                      onChange={(e) =>
+                        updateQuantity(type, parseInt(e.target.value) || 1)
+                      }
+                      className="w-12 text-center bg-gray-700 rounded py-1 text-white"
+                      min="1"
+                    />
+                    <button
+                      onClick={() =>
+                        updateQuantity(type, cartItem.quantity + 1)
+                      }
+                      className="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
 
                 <button
                   onClick={() => removeComponent(type)}
-                  className="mt-4 bg-red-600 px-4 py-2 rounded hover:bg-red-700"
+                  className="mt-4 w-full bg-red-600 px-4 py-2 rounded hover:bg-red-700"
                 >
                   Remove
                 </button>

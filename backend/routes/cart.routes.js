@@ -2,54 +2,112 @@ const express = require("express");
 const router = express.Router();
 const db = require("../models");
 
-async function getCart() {
-  let cart = await db.Selected.findOne();
+async function getCart(cartid) {
+  let cart = await db.Selected.findOne({ where: { id: cartid } });
   if (!cart) {
-    cart = await db.Selected.create({});
+    cart = await db.Selected.create({ id: cartid });
   }
   return cart;
 }
 
+// Map type → column
+const columnMap = {
+  processor: "processorid",
+  motherboard: "motherboardid",
+  ram: "ramid",
+  graphics: "graphicsid",
+  ssd: "ssdid",
+  casefan: "casefanid",
+  case: "caseid",
+  powersupply: "powersupplyid",
+  keyboard: "keyboardid",
+  mouse: "mouseid",
+};
+
+// Map type → quantity column
+const quantityMap = {
+  processor: "processorqty",
+  motherboard: "motherboardqty",
+  ram: "ramqty",
+  graphics: "graphicsqty",
+  ssd: "ssdqty",
+  casefan: "casefanqty",
+  case: "caseqty",
+  powersupply: "powersupplyqty",
+  keyboard: "keyboardqty",
+  mouse: "mouseqty",
+};
+
 router.get("/", async (req, res) => {
   try {
-    const cart = await getCart();
+    const { cartid } = req.query;
+
+    if (!cartid) {
+      return res.status(400).json({ message: "Cart ID is required" });
+    }
+
+    const cart = await getCart(cartid);
 
     const response = {
-      processor:
-        db.Processor && cart.processorid
+      processor: {
+        item: db.Processor && cart.processorid
           ? await db.Processor.findByPk(cart.processorid)
           : null,
+        quantity: cart.processorqty || 1,
+      },
 
-      motherboard:
-        db.Motherboard && cart.motherboardid
+      motherboard: {
+        item: db.Motherboard && cart.motherboardid
           ? await db.Motherboard.findByPk(cart.motherboardid)
           : null,
+        quantity: cart.motherboardqty || 1,
+      },
 
-      ram: db.Ram && cart.ramid ? await db.Ram.findByPk(cart.ramid) : null,
+      ram: {
+        item: db.Ram && cart.ramid ? await db.Ram.findByPk(cart.ramid) : null,
+        quantity: cart.ramqty || 1,
+      },
 
-      graphics:
-        db.Graphic && cart.graphicsid
+      graphics: {
+        item: db.Graphic && cart.graphicsid
           ? await db.Graphic.findByPk(cart.graphicsid)
           : null,
+        quantity: cart.graphicsqty || 1,
+      },
 
-      ssd: db.Ssd && cart.ssdid ? await db.Ssd.findByPk(cart.ssdid) : null,
+      ssd: {
+        item: db.Ssd && cart.ssdid ? await db.Ssd.findByPk(cart.ssdid) : null,
+        quantity: cart.ssdqty || 1,
+      },
 
-      casefan:
-        db.Fan && cart.casefanid ? await db.Fan.findByPk(cart.casefanid) : null,
+      casefan: {
+        item: db.Fan && cart.casefanid ? await db.Fan.findByPk(cart.casefanid) : null,
+        quantity: cart.casefanqty || 1,
+      },
 
-      case: db.Case && cart.caseid ? await db.Case.findByPk(cart.caseid) : null,
+      case: {
+        item: db.Case && cart.caseid ? await db.Case.findByPk(cart.caseid) : null,
+        quantity: cart.caseqty || 1,
+      },
 
-      powersupply:
-        db.Psu && cart.powersupplyid
+      powersupply: {
+        item: db.Psu && cart.powersupplyid
           ? await db.Psu.findByPk(cart.powersupplyid)
           : null,
-      keyboard:
-        db.Keyboard && cart.keyboardid
+        quantity: cart.powersupplyqty || 1,
+      },
+
+      keyboard: {
+        item: db.Keyboard && cart.keyboardid
           ? await db.Keyboard.findByPk(cart.keyboardid)
           : null,
+        quantity: cart.keyboardqty || 1,
+      },
 
-      mouse:
-        db.Mouse && cart.mouseid ? await db.Mouse.findByPk(cart.mouseid) : null,
+      mouse: {
+        item: db.Mouse && cart.mouseid ? await db.Mouse.findByPk(cart.mouseid) : null,
+        quantity: cart.mouseqty || 1,
+      },
     };
 
     res.json(response);
@@ -60,10 +118,14 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  const { type, id } = req.body;
+  const { type, id, cartid } = req.body;
+
+  if (!cartid) {
+    return res.status(400).json({ message: "Cart ID is required" });
+  }
 
   try {
-    const cart = await getCart();
+    const cart = await getCart(cartid);
     //Compatiblity for processor and motherboard
     if (type === "motherboard" && cart.processorid) {
       const cpu = await db.Processor.findByPk(cart.processorid);
@@ -166,20 +228,6 @@ router.post("/add", async (req, res) => {
       }
     }
 
-    // Map type → column
-    const columnMap = {
-      processor: "processorid",
-      motherboard: "motherboardid",
-      ram: "ramid",
-      graphics: "graphicsid",
-      ssd: "ssdid",
-      casefan: "casefanid",
-      case: "caseid",
-      powersupply: "powersupplyid",
-      keyboard: "keyboardid",
-      mouse: "mouseid",
-    };
-
     const column = columnMap[type];
     if (!column) {
       return res.status(400).json({ message: "Invalid component type" });
@@ -197,22 +245,14 @@ router.post("/add", async (req, res) => {
 
 router.delete("/:type", async (req, res) => {
   const { type } = req.params;
+  const { cartid } = req.query;
+
+  if (!cartid) {
+    return res.status(400).json({ message: "Cart ID is required" });
+  }
 
   try {
-    const cart = await getCart();
-
-    const columnMap = {
-      processor: "processorid",
-      motherboard: "motherboardid",
-      ram: "ramid",
-      graphics: "graphicsid",
-      ssd: "ssdid",
-      case: "caseid",
-      casefan: "casefanid",
-      powersupply: "powersupplyid",
-      keyboard: "keyboardid",
-      mouse: "mouseid",
-    };
+    const cart = await getCart(cartid);
 
     const column = columnMap[type];
     if (!column) {
@@ -220,12 +260,42 @@ router.delete("/:type", async (req, res) => {
     }
 
     cart[column] = null;
+    cart[quantityMap[type]] = 1;
     await cart.save();
 
     res.json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to remove component" });
+  }
+});
+
+router.put("/quantity/:type", async (req, res) => {
+  const { type } = req.params;
+  const { quantity, cartid } = req.body;
+
+  if (!cartid) {
+    return res.status(400).json({ message: "Cart ID is required" });
+  }
+
+  try {
+    if (!quantity || quantity < 1) {
+      return res.status(400).json({ message: "Quantity must be at least 1" });
+    }
+
+    const quantityColumn = quantityMap[type];
+    if (!quantityColumn) {
+      return res.status(400).json({ message: "Invalid component type" });
+    }
+
+    const cart = await getCart(cartid);
+    cart[quantityColumn] = quantity;
+    await cart.save();
+
+    res.json({ success: true, quantity });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update quantity" });
   }
 });
 

@@ -9,10 +9,17 @@ function Add({ component, type }) {
       return;
     }
 
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    if (!user.cartid) {
+      alert("Please log in to add items to cart");
+      return;
+    }
+
     try {
       await api.post("/cart/add", {
         type,
         id: component.id,
+        cartid: user.cartid,
       });
 
       alert("Added to cart ✅");
