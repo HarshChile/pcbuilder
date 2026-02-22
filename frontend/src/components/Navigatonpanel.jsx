@@ -6,8 +6,9 @@ function Navigatonpanel() {
   const location = useLocation();
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // ✅ Lazy init (NO effect, NO warning)
+
   const [user, setUser] = useState(() => {
     try {
       const storedUser = localStorage.getItem("user");
@@ -17,7 +18,7 @@ function Navigatonpanel() {
     }
   });
 
-  // ✅ ONLY listen for external changes
+  
   useEffect(() => {
     const syncUser = () => {
       try {
@@ -52,7 +53,7 @@ function Navigatonpanel() {
 
   return (
     <nav
-      className="bg-black text-white flex justify-between items-center 
+      className="relative bg-black text-white flex justify-between items-center 
       px-6 md:px-16 py-6 text-lg shadow-lg border-b border-gray-800"
     >
       {/* LEFT */}
@@ -65,7 +66,7 @@ function Navigatonpanel() {
         {/* AUTH */}
         {user ? (
           <div className="flex items-center gap-4">
-            <span className="text-green-400 font-semibold text-lg">
+            <span className="text-green-400 font-semibold text-lg ">
               {user.username}
             </span>
             <button
@@ -182,7 +183,104 @@ function Navigatonpanel() {
         <span className="neon-tab">FAQ</span>
       </div>
 
-      <div className="md:hidden text-3xl cursor-pointer">☰</div>
+      <div 
+        className="md:hidden text-3xl cursor-pointer hover:text-green-500 transition"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        role="button"
+        tabIndex={0}
+        aria-label="Toggle navigation menu"
+        onKeyDown={(e) => e.key === "Enter" && setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        ☰
+      </div>
+
+      {/* MOBILE MENU */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-full left-0 right-0 bg-black border-b border-gray-800 md:hidden z-40 w-full">
+          <div className="flex flex-col gap-4 px-6 py-6 text-green-500 text-lg">
+            <Link 
+              to="/" 
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="neon-tab"
+            >
+              Home
+            </Link>
+            <span className="neon-tab">About</span>
+            
+            {/* Mobile Component Dropdown */}
+            <div>
+              <span className="neon-tab cursor-pointer">Component</span>
+              <div className="ml-4 mt-2 flex flex-col gap-2 text-gray-300">
+                <Link 
+                  to="/processor" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/processor.svg" className="w-5 h-5" /> Processor
+                </Link>
+                <Link 
+                  to="/graphics" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/graphics.svg" className="w-5 h-5" /> Graphics
+                </Link>
+                <Link 
+                  to="/ssd" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/ssd.svg" className="w-5 h-5" /> SSD
+                </Link>
+                <Link 
+                  to="/ram" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/ram.svg" className="w-5 h-5" /> RAM
+                </Link>
+                <Link 
+                  to="/casefan" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/casefan.svg" className="w-5 h-5" /> Case Fan
+                </Link>
+                <Link 
+                  to="/powersupply" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/powersupply.svg" className="w-5 h-5" /> Power Supply
+                </Link>
+                <Link 
+                  to="/keyboard" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/keyboard.svg" className="w-5 h-5" /> Keyboard
+                </Link>
+                <Link 
+                  to="/motherboard" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/motherboard.svg" className="w-5 h-5" /> Motherboard
+                </Link>
+                <Link 
+                  to="/case" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 hover:text-green-500 transition"
+                >
+                  <img src="/case.svg" className="w-5 h-5" /> Case
+                </Link>
+              </div>
+            </div>
+            
+            <span className="neon-tab">FAQ</span>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
