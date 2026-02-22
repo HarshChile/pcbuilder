@@ -217,3 +217,141 @@
 .container.right-panel-active .overlay-right {
   transform: translateX(20%);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .toggle-btn {
+    background-color: #39FF14;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+
+  .toggle-btn.active {
+    background-color: black;
+    color: #39FF14;
+  }
+
+  .toggle-btn:not(.active) {
+    background-color: #eee;
+    color: black;
+  }
+
+  .auth-page-wrapper {
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container {
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container {
+    position: static;
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 100%;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 1;
+  }
+
+  .container.right-panel-active .sign-in-container {
+    display: none;
+  }
+
+  .container:not(.right-panel-active) .sign-up-container {
+    display: none;
+  }
+
+  .overlay-container {
+    position: static;
+    width: 100%;
+    height: auto;
+    transform: none !important;
+  }
+
+  .overlay {
+    width: 100%;
+    height: auto;
+    transform: none !important;
+    display: none; /* Hide overlay on mobile, use buttons to switch */
+  }
+
+  .overlay-panel {
+    padding: 20px;
+  }
+
+  .auth-page-wrapper form {
+    padding: 20px;
+  }
+
+  .auth-page-wrapper button {
+    padding: 10px 30px;
+    font-size: 11px;
+  }
+
+  .auth-page-wrapper h1 {
+    font-size: 1.5rem;
+  }
+
+  .auth-page-wrapper p {
+    font-size: 12px;
+    margin: 15px 0 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-toggle {
+    display: none;
+  }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .auth-page-wrapper {
+    height: 100vh;
+    padding: 10px;
+  }
+
+  .container {
+    min-height: 90vh;
+  }
+
+  .form-container {
+    min-height: 90vh;
+  }
+
+  .auth-page-wrapper form {
+    padding: 20px 30px;
+  }
+
+  .auth-page-wrapper input {
+    padding: 10px 12px;
+    margin: 6px 0;
+  }
+
+  .auth-page-wrapper button {
+    padding: 10px 35px;
+  }
+}

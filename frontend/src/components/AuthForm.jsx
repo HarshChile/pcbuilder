@@ -72,6 +72,21 @@ const AuthForm = () => {
 
   return (
     <div className="auth-page-wrapper">
+      {/* Mobile Toggle Buttons */}
+      <div className="mobile-toggle">
+        <button
+          className={`toggle-btn ${!isSignUp ? 'active' : ''}`}
+          onClick={() => setIsSignUp(false)}
+        >
+          Sign In
+        </button>
+        <button
+          className={`toggle-btn ${isSignUp ? 'active' : ''}`}
+          onClick={() => setIsSignUp(true)}
+        >
+          Sign Up
+        </button>
+      </div>
       <div
         className={`container ${isSignUp ? "right-panel-active" : ""}`}
         id="container"

@@ -147,13 +147,6 @@ function Navigatonpanel() {
               Supply{" "}
             </Link>{" "}
             <Link
-              to="/keyboard"
-              className="px-4 py-2 dropdown-neon flex items-center"
-            >
-              {" "}
-              <img src="/keyboard.svg" className="w-5 h-5 mr-2" /> Keyboard{" "}
-            </Link>{" "}
-            <Link
               to="/motherboard"
               className="px-4 py-2 dropdown-neon flex items-center"
             >
