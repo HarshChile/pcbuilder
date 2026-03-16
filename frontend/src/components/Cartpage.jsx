@@ -24,7 +24,7 @@ function Cartpage() {
       const res = await api.get("/cart", { params: { cartid: cid } });
       setCart(res.data || {});
       setError(null);
-    } catch (err) {
+    } catch {
       console.error("Failed to fetch cart");
       setError("Failed to fetch cart");
     } finally {
@@ -36,20 +36,51 @@ function Cartpage() {
     try {
       await api.delete(`/cart/${type}`, { params: { cartid } });
       fetchCart(cartid);
-    } catch (err) {
+    } catch {
       alert("Failed to remove component");
     }
   };
 
   const updateQuantity = async (type, quantity) => {
+    if (quantity < 1) return;
+
+    // Optimistically update UI immediately
+    setCart((prevCart) => {
+      const item = prevCart[type];
+      if (!item) return prevCart;
+      return {
+        ...prevCart,
+        [type]: {
+          ...item,
+          quantity,
+        },
+      };
+    });
+
     try {
-      if (quantity < 1) return;
       await api.put(`/cart/quantity/${type}`, { quantity, cartid });
       fetchCart(cartid);
-    } catch (err) {
+    } catch {
       alert("Failed to update quantity");
+      fetchCart(cartid);
     }
   };
+
+  const getItemTotal = (cartItem) => {
+    if (!cartItem || !cartItem.item || !cartItem.item.price) return 0;
+    return (Number(cartItem.item.price) || 0) * (Number(cartItem.quantity) || 1);
+  };
+
+  const cartTotal = Object.values(cart).reduce((sum, cartItem) => {
+    return sum + getItemTotal(cartItem);
+  }, 0);
+
+  const voltageTotal = Object.values(cart).reduce((sum, cartItem) => {
+    if (!cartItem || !cartItem.item) return sum;
+    const tdp = Number(cartItem.item.tdp || 0);
+    const qty = Number(cartItem.quantity || 1);
+    return sum + tdp * qty;
+  }, 0);
 
   const isEmpty = Object.values(cart).every(
     (item) => !item || !item.item
@@ -89,7 +120,8 @@ function Cartpage() {
       </div>
 
       {!isEmpty && (
-        <div className="px-8 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <>
+          <div className="px-8 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(cart).map(([type, cartItem]) =>
             cartItem && cartItem.item ? (
               <div
@@ -115,9 +147,14 @@ function Cartpage() {
                 )}
 
                 {cartItem.item.price && (
-                  <p className="text-green-400 font-semibold mt-2">
-                    ₹{Number(cartItem.item.price).toLocaleString("en-IN")}
-                  </p>
+                  <>
+                    <p className="text-green-400 font-semibold mt-2">
+                      Unit: ₹{Number(cartItem.item.price).toLocaleString("en-IN")}
+                    </p>
+                    <p className="text-green-300 font-semibold mt-1">
+                      Total: ₹{getItemTotal(cartItem).toLocaleString("en-IN")}
+                    </p>
+                  </>
                 )}
 
                 <div className="mt-4 flex items-center gap-3">
@@ -161,6 +198,29 @@ function Cartpage() {
             ) : null
           )}
         </div>
+
+        <div className="px-8 pb-8">
+          <div className="bg-gray-900 p-4 rounded-lg text-white max-w-md mx-auto">
+            <div className="flex justify-between text-gray-300">
+              <span className="font-medium">Cart Total</span>
+              <span className="font-bold text-green-300">
+                ₹{cartTotal.toLocaleString("en-IN")}
+              </span>
+            </div>
+            <div className="flex justify-between text-gray-300 mt-2">
+              <span className="font-medium">Voltage Total (TDP)</span>
+              <span className="font-bold text-yellow-300">
+                {voltageTotal.toLocaleString("en-IN")} W
+              </span>
+            </div>
+            <p className="text-xs text-gray-400 mt-1">
+            
+            </p>
+          </div>
+        </div>
+
+        
+      </>
       )}
     </div>
   );

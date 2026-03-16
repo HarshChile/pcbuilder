@@ -5,6 +5,7 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 require("dotenv").config();
+app.use((req,res,next)=>{ console.log('REQUEST', req.method, req.path); next(); });
 
 const componentsRoutes = require("./routes/components");
 app.use("/api/components", componentsRoutes);
@@ -14,6 +15,9 @@ app.use("/api/cart", cartRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/api/auth", authRoutes);
+
+const paymentRoutes = require("./routes/payment.routes");
+app.use("/api/payment", paymentRoutes);
 
 app.use("/images", express.static("public/images"));
 

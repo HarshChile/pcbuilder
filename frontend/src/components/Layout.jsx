@@ -4,6 +4,7 @@ import Navigatonpanel from './Navigatonpanel'
 import Hero from './Hero'
 import { Outlet } from 'react-router-dom'
 import Seemycartbutton from './Seemycartbutton'
+import CheckoutButton from './CheckoutButton'
 import { CartProvider } from '../context/CartContext'
 
 function Layout() {
@@ -12,6 +13,7 @@ function Layout() {
       <Navigatonpanel/>
       <Outlet/>
       <Seemycartbutton/>
+      <CheckoutButton/>
     </CartProvider>
   )
 }

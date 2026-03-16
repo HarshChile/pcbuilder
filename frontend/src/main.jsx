@@ -8,6 +8,7 @@ import Hero from './components/Hero.jsx'
 import ComponentListPage from './components/ComponentListPage.jsx'
 import Componentdetail from './components/Componentdetail.jsx'
 import Cartpage from './components/Cartpage.jsx'
+import CheckoutPage from './components/CheckoutPage.jsx'
 import Readme from './components/Readme.jsx'
 import AuthForm from './components/AuthForm.jsx';
 
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
       {/* Details page */}
       <Route path=":type/details/:id" element={<Componentdetail />} />
       <Route path="cart" element={<Cartpage/>} />
+      <Route path="checkout" element={<CheckoutPage/>} />
       <Route path='readme' element={<Readme/>}/>
     </Route>
   )
