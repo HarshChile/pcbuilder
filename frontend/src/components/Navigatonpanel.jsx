@@ -86,12 +86,14 @@ function Navigatonpanel() {
         )}
       </div>
 
-      {/* CENTER */}
+      
       <div className="hidden md:flex gap-10 items-center text-green-500 text-xl">
         <Link to="/" className="neon-tab">
           Home
         </Link>
-        <span className="neon-tab">About</span>
+        <Link to="/aboutus" className="neon-tab">
+          About
+        </Link>
         <div className="relative group">
           {" "}
           <span className="neon-tab cursor-pointer flex items-center gap-1">
@@ -170,8 +172,9 @@ function Navigatonpanel() {
             className="bg-black border border-gray-700 text-white px-2 py-1 rounded-md"
           />
         </form>
-
-        <span className="neon-tab">FAQ</span>
+        <Link to="/faq" className="neon-tab">
+        FAQ
+        </Link>
       </div>
 
       <div
@@ -187,7 +190,7 @@ function Navigatonpanel() {
         ☰
       </div>
 
-      {/* MOBILE MENU */}
+      
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-black border-b border-gray-800 md:hidden z-40 w-full">
           <div className="flex flex-col gap-4 px-6 py-6 text-green-500 text-lg">
@@ -198,9 +201,15 @@ function Navigatonpanel() {
             >
               Home
             </Link>
-            <span className="neon-tab">About</span>
+            <Link
+              to="/aboutus"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="neon-tab"
+            >
+              About
+            </Link>
 
-            {/* Mobile Component Dropdown */}
+            
             <div>
               <span className="neon-tab cursor-pointer">Component</span>
               <div className="ml-4 mt-2 flex flex-col gap-2 text-gray-300">

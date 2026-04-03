@@ -11,6 +11,8 @@ import Cartpage from './components/Cartpage.jsx'
 import CheckoutPage from './components/CheckoutPage.jsx'
 import Readme from './components/Readme.jsx'
 import AuthForm from './components/AuthForm.jsx';
+import Aboutus from './components/Aboutus.jsx';
+import Faq from './components/Faq.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,6 +28,8 @@ const router = createBrowserRouter(
       <Route path="cart" element={<Cartpage/>} />
       <Route path="checkout" element={<CheckoutPage/>} />
       <Route path='readme' element={<Readme/>}/>
+      <Route path="aboutus" element={<Aboutus/>}/>
+      <Route path="faq" element={<Faq/>} />
     </Route>
   )
 )

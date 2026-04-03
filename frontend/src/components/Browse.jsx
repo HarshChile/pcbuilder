@@ -18,7 +18,7 @@ function Browse({ component, type }) {
         {component.pname}
       </h2>
 
-      <p className="text-gray-600 mt-2">
+      <p className="text-white mt-2">
         {component.info}
       </p>
 
